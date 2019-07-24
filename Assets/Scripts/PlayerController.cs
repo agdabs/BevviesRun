@@ -7,13 +7,14 @@ public class PlayerController : MonoBehaviour
     public float speed;               
     private Rigidbody2D rb2d;
     private Collider2D col; 
-    private float jumpForce = 100;
+    private float jumpForce = 200;
     private bool isGrounded;
  
     void Start()
     {
         rb2d = GetComponent<Rigidbody2D>();
         col = GetComponent<Collider2D>();
+        isGrounded = true;
     }
 
     void FixedUpdate()
@@ -34,16 +35,13 @@ public class PlayerController : MonoBehaviour
             isGrounded = false;
         }
     }
-    
-    private void OnCollisionStay2D()
-    {
-        isGrounded = true;
-    }
 
-    private void OnCollisionExit3D()
+    void OnTriggerStay2D(Collider2D other)
     {
-        isGrounded = false;
+        if (other.gameObject.CompareTag("Ground"))
+        {
+            isGrounded = true;
+        }
     }
-
 
 }
