@@ -12,7 +12,7 @@ public class DestroyableBehaviour : MonoBehaviour
     {
         if (enableDestroy)
         {
-            Debug.Log(string.Format("destorying %s", this.gameObject.name));
+            Debug.Log(string.Format("destroying {0}", this.gameObject.name));
             Destroy(this.gameObject);
         }
         return enableDestroy;

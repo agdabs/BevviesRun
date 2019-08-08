@@ -1,12 +1,14 @@
 ﻿using System.Collections;
-using UnityEngine;
 
 namespace Data
 {
-    public enum BbtCollectibles { Invalid, Pearls, Sugar, Milk, Tea };
+    public enum IngredientCollectibles { Invalid, Pearls, Sugar, Milk, Tea };
 }
-
-public class BbtCollectibleEventHandler : MonoBehaviour
+/// <summary>
+/// This class/Script component is designed to separately handle the event of when an ingredient is "collected".
+/// With this, we can separate the act of "picking up" an ingredient from an ingredient being added to the underlying inventory.
+/// </summary>
+public class IngredientCollectibleEventHandler
 {
     public bool collectEnabled = true;
 
@@ -16,13 +18,13 @@ public class BbtCollectibleEventHandler : MonoBehaviour
     /// </summary>
     /// <param name="ingredient">The ingredient for the event</param>
     /// <param name="inventory">The target inventory as an ArrayList atm</param>
-    public bool handleCollectableEvent(Data.BbtCollectibles ingredient, ArrayList inventory)
+    public bool handleCollectableEvent(Data.IngredientCollectibles ingredient, ArrayList inventory)
     {
         if (collectEnabled)
         {
             inventory.Add(ingredient);
         }
-        return true;
+        return collectEnabled;
     }
 
 
