@@ -7,7 +7,7 @@ public class PlayerController : MonoBehaviour
     public float speed;               
     private Rigidbody2D rb2d;
     private Collider2D col;
-    private float jumpForce = 35;
+    public float jumpForce = 35;
     private bool isGrounded;
  
     void Start()
