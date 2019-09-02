@@ -1,15 +1,15 @@
-using Data;
+using Ingredient = Data.IngredientCollectibles;
 using UnityEngine;
 
 public class IngredientCollectibleBehaviour : MonoBehaviour
 {
-    public IngredientCollectibles ingredientCollectibles = IngredientCollectibles.Invalid;
+    public Ingredient ingredientCollectibles = Ingredient.Invalid;
 
     /// <summary>
     /// Strictly return the underlying IngredientCollectibles storied
     /// </summary>
     /// <returns>A BbtCollectibles</returns>
-    public Data.IngredientCollectibles callCollect()
+    public Ingredient getIngredient()
     {
         return ingredientCollectibles;
     }

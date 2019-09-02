@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using Ingredient = Data.IngredientCollectibles;
 
 /// <summary>
 /// It is called an Actor as it will call behaviours and act upon the result through event handlers.
@@ -7,7 +8,6 @@ using System.Collections;
 /// </summary>
 public class PlayerActor : MonoBehaviour
 {
-    public IngredientCollectibleEventHandler handler = new IngredientCollectibleEventHandler();
     public ArrayList inventory = new ArrayList();
 
     /// <summary>
@@ -16,23 +16,27 @@ public class PlayerActor : MonoBehaviour
     /// <param name="other">Collider that has is trigger on</param>
     void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log("triggerEnter");
+        Debug.Log("triggerEnter on a PlayerActor");
 
-        IngredientCollectibleBehaviour behaviour = other.gameObject.GetComponent<IngredientCollectibleBehaviour>() as IngredientCollectibleBehaviour;
-        if (behaviour != null)
+        if (other.gameObject.CompareTag("Ingredient"))
         {
-            Data.IngredientCollectibles test = behaviour.callCollect();
-            bool result = handler.handleCollectableEvent(test, inventory);
-            Debug.Log(string.Format("ingredient {0} was triggered with collection as {1}", test, result));
-            
-            if (result) {
-                DestroyableBehaviour destroyableBehaviour = other.gameObject.GetComponent<DestroyableBehaviour>() as DestroyableBehaviour;
-                destroyableBehaviour.callDestroy();
-            }
+            HandleIngredientCollection(other.gameObject);
         }
-        else 
+    }
+
+    private void HandleIngredientCollection(GameObject gameObject)
+    {
+        IngredientCollectibleBehaviour ingredientBehaviour = gameObject.GetComponent<IngredientCollectibleBehaviour>();
+        if (ingredientBehaviour != null)
         {
-            Debug.Log("trigger did not contain the ingredient collectable behaviour");
+            Ingredient ingredient = ingredientBehaviour.getIngredient();
+            inventory.Add(ingredient); 
+            Debug.Log(string.Format("Ingredient {0} was added", gameObject.name));
+            gameObject.SetActive(false);
+        }
+        else
+        {
+            Debug.Log(string.Format("gameObject {0} did not contain {1}", gameObject.name, ingredientBehaviour.name));
         }
     }
 }

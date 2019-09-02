@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 
-namespace Data
+public class Data
 {
     public enum IngredientCollectibles { Invalid, Pearls, Sugar, Milk, Tea };
 }
