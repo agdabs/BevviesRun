@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Ingredient = Data.IngredientCollectibles;
 
 public class PlayerController : MonoBehaviour
 {
@@ -9,6 +10,8 @@ public class PlayerController : MonoBehaviour
     private Collider2D col;
     public float jumpForce = 35;
     private bool isGrounded;
+
+    private ArrayList inventory = new ArrayList();
  
     void Start()
     {
@@ -47,9 +50,30 @@ public class PlayerController : MonoBehaviour
 
     void OnTriggerStay2D(Collider2D other)
     {
+        Debug.Log(string.Format("trigger"));
         if (other.gameObject.CompareTag("Ground"))
         {
             isGrounded = true;
+        }
+        if (other.gameObject.CompareTag("Ingredient"))
+        {
+            HandleIngredientCollection(other.gameObject);
+        }
+    }
+
+    private void HandleIngredientCollection(GameObject gameObject)
+    {
+        IngredientCollectibleBehaviour ingredientBehaviour = gameObject.GetComponent<IngredientCollectibleBehaviour>();
+        if (ingredientBehaviour != null)
+        {
+            Ingredient ingredient = ingredientBehaviour.getIngredient();
+            inventory.Add(ingredient); 
+            Debug.Log(string.Format("Ingredient {0} was added", gameObject.name));
+            gameObject.SetActive(false);
+        }
+        else
+        {
+            Debug.Log(string.Format("gameObject {0} did not contain {1}", gameObject.name, ingredientBehaviour.name));
         }
     }
 
