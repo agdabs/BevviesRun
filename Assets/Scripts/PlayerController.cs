@@ -6,14 +6,12 @@ public class PlayerController : MonoBehaviour
 {
     public float speed;               
     private Rigidbody2D rb2d;
-    private Collider2D col;
     public float jumpForce = 35;
     private bool isGrounded;
  
     void Start()
     {
         rb2d = GetComponent<Rigidbody2D>();
-        col = GetComponent<Collider2D>();
         isGrounded = true;
     }
 
@@ -24,7 +22,7 @@ public class PlayerController : MonoBehaviour
 
         Vector2 movement = new Vector2(moveHorizontal, moveVertical);
 
-        if ((Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow)) && isGrounded)
+        if (isMovingHorizontal() && isGrounded)
         {
             rb2d.isKinematic = false;
             rb2d.velocity = movement * speed;
@@ -36,13 +34,25 @@ public class PlayerController : MonoBehaviour
             rb2d.velocity = Vector2.zero;
         }
 
-        if (Input.GetKey(KeyCode.UpArrow) && isGrounded)
+        if (isJumping() && isGrounded)
         {
             rb2d.isKinematic = false;
             rb2d.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             isGrounded = false;
         }
        
+    }
+
+    bool isMovingHorizontal()
+    {
+        return Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow)
+            || Input.GetKey(KeyCode.D)
+            || Input.GetKey(KeyCode.A);
+    }
+
+    bool isJumping()
+    {
+        return Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W);
     }
 
     void OnTriggerStay2D(Collider2D other)
